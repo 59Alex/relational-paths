@@ -1,5 +1,11 @@
 # relational-paths
 
+**Language:** [English](README.md) · [Русский](README.ru.md)<br>
+**Library version:** [0.3.0](docs/0.3.0/en.md) · [All versions](docs/README.md)<br>
+**Java:** [17](docs/0.3.0/java.en.md#java-17) · [21](docs/0.3.0/java.en.md#java-21) · [25](docs/0.3.0/java.en.md#java-25) · [27](docs/0.3.0/java.en.md#java-27)
+
+[**Usage guide: capabilities, examples and expected results →**](docs/0.3.0/en.md)
+
 **Explainable JOIN paths from runtime relational metadata.**
 
 Build query editors, reporting tools, and metadata-driven APIs without spreading foreign-key navigation rules across application code. Describe logical table roles and their relationships once; request the roles needed by a query and inspect the resulting join plan.
