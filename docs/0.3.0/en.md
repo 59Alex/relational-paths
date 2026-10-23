@@ -295,18 +295,15 @@ Expected PlanningException message.
 
 ## Run the complete example and troubleshoot
 
-Download Example.java and run it against the locally built JAR. It checks the documented routes, aliases, SQL, bindings, null behavior, limits, and immutable results without a database.
-
-Run these commands from the directory containing the downloaded Example.java. Replace /path/to/relational-paths with your checkout path. The commands below use Unix classpath separators; on Windows replace the colon in the classpath with a semicolon.
+Run [Example.java](examples/Example.java), already included in the checkout, from the repository root with a full JDK 17 or a supported newer JDK. The POSIX commands below use a colon as the classpath separator; on Windows use a semicolon. The example needs only the library JAR and a JDK.
 
 ```bash
-LIB=/path/to/relational-paths/build/libs/relational-paths-0.3.0.jar
-mkdir -p /tmp/relational-paths-example
-javac --release 17 -cp "$LIB" -d /tmp/relational-paths-example Example.java
-java -cp "/tmp/relational-paths-example:$LIB" Example
+./gradlew jar
+mkdir -p build/docs-example
+javac --release 17 -cp build/libs/relational-paths-0.3.0.jar \
+  -d build/docs-example docs/0.3.0/examples/Example.java
+java -cp build/docs-example:build/libs/relational-paths-0.3.0.jar Example
 ```
-
-Compile and run the downloadable file using JDK 17 or a supported newer JDK.
 
 ```text
 allowlist, null rules and immutable results: OK

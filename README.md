@@ -21,7 +21,20 @@ Build query editors, reporting tools, and metadata-driven APIs without spreading
 
 This is a semantic path planner, not a database cost optimizer. It never opens a connection or executes a query.
 
+## Try it
+
+With a full JDK 17, 21, 25, or 27 installed:
+
+```sh
+git clone https://github.com/59Alex/relational-paths.git
+cd relational-paths
+./gradlew example
+```
+
 ## Quick start
+
+The snippet below belongs in a method body after the imports. The complete runnable
+example is included in the repository and runs with the command above.
 
 ```java
 import io.github.alex59.relationalpaths.*;
@@ -160,6 +173,57 @@ Tests cover path ambiguity, positive-cost cycles, parallel foreign keys, determi
 
 Стройте понятные и воспроизводимые планы JOIN по метаданным таблиц. Явно выбирайте неоднозначные связи и получайте SELECT-запросы с отдельными значениями параметров.
 
+## Попробовать
+
+Понадобится полный JDK 17, 21, 25 или 27. Для демонстрации база данных не нужна:
+библиотека строит план и SQL, а выполнение запроса остаётся приложению.
+
+```sh
+git clone https://github.com/59Alex/relational-paths.git
+cd relational-paths
+./gradlew example
+```
+
+[Полный пример](src/examples/java/io/github/alex59/relationalpaths/examples/ReportQuery.java)
+показывает составной JOIN заказов и клиентов, SQL с `?` и отдельный параметр `Alice`.
+Минимальный фрагмент для тела метода после импортов:
+
+```java
+import io.github.alex59.relationalpaths.*;
+import java.util.List;
+import java.util.Set;
+
+var schema = new Schema(List.of(
+    new Table("orders", "orders", Set.of("id", "customer_id")),
+    new Table("customer", "customer", Set.of("id", "name"))
+), List.of(new Relationship("order_customer", "orders", "customer", 1,
+    List.of(new ColumnPair("customer_id", "id")))));
+var plan = new JoinPlanner(schema).plan("orders", List.of("customer"));
+var query = SqlRenderer.select(plan,
+    List.of(new ColumnRef("customer", "name")),
+    List.of(new Filter(new ColumnRef("customer", "name"), Filter.Operator.EQ, "Alice")));
+System.out.println(plan.routes().get("customer")); // [order_customer]
+System.out.println(query.bindings());             // [Alice]
+```
+
+## Что важно для интеграции
+
+- Планировщик ищет направленные пути с минимальной суммой положительных стоимостей.
+  Стоимость задаёт смысловое предпочтение, а не прогноз времени выполнения SQL.
+- При равной стоимости нескольких путей возникает `AmbiguousPathException` с двумя
+  маршрутами для объяснения. Явный список ID связей позволяет выбрать нужный путь.
+- Составные ключи и несколько внешних ключей сохраняются. Для двух обращений к одной
+  физической таблице задайте разные логические роли: каждая получит отдельный алиас.
+- Порядок метаданных не меняет план; общие участки путей переиспользуются, конфликтующие
+  входящие связи отклоняются. Лимиты поиска завершают операцию ошибкой, без усечения плана.
+- SQL-рендерер создаёт `INNER JOIN` и `AND`-фильтры. Колонки должны быть объявлены в
+  метаданных и включены в план; значения передаются отдельно через JDBC-параметры.
+  `EQ null` и `NE null` превращаются в `IS NULL` и `IS NOT NULL`.
+- Идентификаторы ограничены ASCII; физическое имя — `table` или `schema.table`.
+  Приложение отвечает за доступ к данным, транзакции и подключение к БД.
+- `INNER JOIN` может исключать строки и размножать их при связи один-ко-многим.
+  Планировщик не меняет эту семантику и не выполняет запросы самостоятельно.
+
 ## Возможности
 
 | Возможность | Пример и объяснение |
@@ -178,7 +242,22 @@ Tests cover path ambiguity, positive-cost cycles, parallel foreign keys, determi
 
 Специальных модулей с API Java 21/25/27 нет: библиотека использует базу Java 17.
 
-Артефакты устанавливаются из исходников через Maven Local; публикация в Maven Central пока не настроена. Точные зависимости, команды и требования примера находятся в руководстве.
+Установите артефакт из исходников в локальный Maven-репозиторий:
+
+```sh
+./gradlew build publishToMavenLocal
+```
+
+Подключите его в Gradle-проекте:
+
+```kotlin
+repositories { mavenLocal(); mavenCentral() }
+dependencies { implementation("io.github.59alex:relational-paths:0.3.0") }
+```
+
+Это локальная установка, а не публикация в Maven Central. Для выбора установленного
+JDK используйте `-PtestJavaVersion=17`, `21`, `25` или `27`; байткод всегда рассчитан
+на Java 17. Подробные сценарии с ожидаемым результатом доступны в таблице выше.
 
 ## Лицензия
 

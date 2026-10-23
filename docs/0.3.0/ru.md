@@ -295,18 +295,15 @@ Search exceeded maxEdgeVisits=0
 
 ## Запуск полного примера и решение проблем
 
-Скачайте Example.java и запустите его с локально собранным JAR. Пример проверяет описанные маршруты, алиасы, SQL, параметры, обработку null, лимиты и неизменяемость результатов без базы данных.
-
-Выполняйте команды из каталога со скачанным Example.java. Замените /path/to/relational-paths путём к вашим исходникам. Ниже используется разделитель classpath для Unix; в Windows замените двоеточие в classpath на точку с запятой.
+Запустите [Example.java](examples/Example.java), уже включённый в исходники, из корня репозитория на полном JDK 17 или поддерживаемой более новой версии. Команды для POSIX shell используют двоеточие как разделитель classpath; в Windows используйте точку с запятой. Примеру нужны только JAR библиотеки и JDK.
 
 ```bash
-LIB=/path/to/relational-paths/build/libs/relational-paths-0.3.0.jar
-mkdir -p /tmp/relational-paths-example
-javac --release 17 -cp "$LIB" -d /tmp/relational-paths-example Example.java
-java -cp "/tmp/relational-paths-example:$LIB" Example
+./gradlew jar
+mkdir -p build/docs-example
+javac --release 17 -cp build/libs/relational-paths-0.3.0.jar \
+  -d build/docs-example docs/0.3.0/examples/Example.java
+java -cp build/docs-example:build/libs/relational-paths-0.3.0.jar Example
 ```
-
-Скомпилируйте и запустите скачанный файл на JDK 17 или поддерживаемой более новой версии.
 
 ```text
 allowlist, null rules and immutable results: OK
