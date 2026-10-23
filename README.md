@@ -9,7 +9,7 @@ Build query editors, reporting tools, and metadata-driven APIs without spreading
 - Preserves multiple foreign keys, composite keys, and separate roles for one physical table.
 - Produces deterministic plans, aliases, and route explanations.
 - Includes a small SQL renderer with column allowlists and bound filter values.
-- Java 17 minimum; supported LTS runtimes 17, 21, and 25; no runtime dependencies, [MIT licensed](LICENSE).
+- Java 17 minimum; supported LTS runtimes 17, 21, and 25, plus Java 27; no runtime dependencies, [MIT licensed](LICENSE).
 
 This is a semantic path planner, not a database cost optimizer. It never opens a connection or executes a query.
 
@@ -113,11 +113,11 @@ The defaults allow 512 roles, 8,192 relationships, and 8,192 edge visits per aut
 
 ## Java baseline
 
-Version 0.3.0 targets Java 17 and supports the Java 17, 21, and 25 LTS runtimes. Ordered, unmodifiable map snapshots preserve deterministic aliases and routes without requiring newer collection APIs. No preview features are used. See [Java support and migration](docs/JAVA-SUPPORT.md) for the runtime matrix and build commands.
+Version 0.3.0 targets Java 17 and supports the Java 17, 21, and 25 LTS runtimes, plus Java 27 as an additional runtime. Ordered, unmodifiable map snapshots preserve deterministic aliases and routes without requiring newer collection APIs. No preview features are used. See [Java support and migration](docs/JAVA-SUPPORT.md) for the runtime matrix and build commands.
 
 ## Build and use locally
 
-Use a supported JDK (17, 21, or 25); no preview flags are required:
+Use a supported JDK (17, 21, 25, or 27); no preview flags are required:
 
 ```sh
 ./gradlew build

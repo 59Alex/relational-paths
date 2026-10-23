@@ -1,14 +1,17 @@
 # Java support
 
-Version **0.3.0 requires Java 17 or newer**. The supported and tested LTS matrix is **Java 17, Java 21, and Java 25**. The same library artifact is used on all three runtimes; it is not a multi-release JAR.
+Version **0.3.0 requires Java 17 or newer**. The supported and tested LTS matrix is **Java 17, Java 21, and Java 25**; **Java 27** is also supported as an additional runtime. The same library artifact is used on all four runtimes; it is not a multi-release JAR.
 
 | Runtime | Support | Artifact target |
 |---|---|---|
 | Java 17 LTS | Minimum supported runtime | Java 17, class-file major version 61 |
 | Java 21 LTS | Supported runtime | The same Java 17-targeted artifact |
 | Java 25 LTS | Supported runtime | The same Java 17-targeted artifact |
+| Java 27 | Additional supported runtime | The same Java 17-targeted artifact |
 
 Build compilation uses `--release 17` for main code, tests, and the executable example. This checks both language syntax and the Java API surface: compiling with a newer JDK does not permit accidental use of APIs absent from Java 17. Preview and incubator features are not enabled.
+
+Java 27 support does not restore the earlier minimum-Java-27 requirement. Both compilation target and published JVM metadata remain Java 17; newer APIs are not required by the library.
 
 ## Preserved behavior
 
@@ -28,15 +31,16 @@ Use the repository's Gradle wrapper. Install the selected JDK and make it discov
 ./gradlew clean build -PtestJavaVersion=17
 ./gradlew clean build -PtestJavaVersion=21
 ./gradlew clean build -PtestJavaVersion=25
+./gradlew clean build -PtestJavaVersion=27
 ```
 
-Each `build` runs the graph and SQL tests and launches the report example. Changing `testJavaVersion` selects the runtime used to execute those checks; it does not raise the compiled artifact's Java 17 target. CI uses the same LTS matrix.
+Each `build` runs the graph and SQL tests and launches the report example. Changing `testJavaVersion` selects the runtime used to execute those checks; it does not raise the compiled artifact's Java 17 target. The CI workflow defines the same LTS matrix plus Java 27.
 
 There is no requirement for `--enable-preview`, `--add-modules`, a Java agent, or native-access flags. The library itself has no runtime dependencies.
 
 ## Migrate to 0.3.0
 
-1. Use Java 17, 21, or 25 for your application runtime and build environment.
+1. Use Java 17, 21, 25, or 27 for your application runtime and build environment.
 2. Update the dependency to `io.github.59alex:relational-paths:0.3.0` and rebuild your application. The README documents local publication; these coordinates are not a claim of Maven Central availability.
 3. Keep existing metadata and query assertions. There are no public method-signature or SQL contract changes in this compatibility update.
 4. If you used the Java 27-only 0.2.0 release, replace that artifact entirely. Its compiled classes cannot run on Java 17/21/25. The former baseline notes are retained as [historical documentation](JAVA-27.md), not current setup instructions.

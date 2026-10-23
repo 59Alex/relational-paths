@@ -36,7 +36,7 @@ This is a library inside the caller's process, not an independently deployed ser
 | `SqlRenderer` | Allowlisted identifier rendering, predicates, placeholders | Driver value conversion, connections, row limits |
 | Caller | Metadata authorization, projections, filters, JDBC binding, transaction, timeouts | No responsibilities are transferred implicitly |
 
-The Java 17 baseline uses an insertion-ordered `LinkedHashMap` for aliases and a sorted `TreeMap` for routes. Both are wrapped as unmodifiable snapshots, including immutable nested route lists; public accessors retain their `Map` signatures. [Java support](JAVA-SUPPORT.md) documents the supported LTS runtime matrix.
+The Java 17 baseline uses an insertion-ordered `LinkedHashMap` for aliases and a sorted `TreeMap` for routes. Both are wrapped as unmodifiable snapshots, including immutable nested route lists; public accessors retain their `Map` signatures. [Java support](JAVA-SUPPORT.md) documents the supported LTS runtime matrix and additional Java 27 support.
 
 A role ID is independent of a physical table name. This preserves two foreign-key roles such as billing and shipping addresses. A relationship carries explicit equality column pairs, so composite keys remain intact.
 
