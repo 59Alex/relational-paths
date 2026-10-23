@@ -6,9 +6,7 @@ import java.util.Set;
 
 /** Run with ./gradlew example; no database is needed to inspect the query. */
 public final class ReportQuery {
-    private ReportQuery() { }
-
-    public static void main(String[] args) {
+    void main() {
         Schema schema = new Schema(List.of(
                 new Table("orders", "sales.orders", Set.of("id", "customer_id", "tenant_id")),
                 new Table("customer", "sales.customer", Set.of("id", "tenant_id", "name"))
@@ -20,8 +18,8 @@ public final class ReportQuery {
                 List.of(new ColumnRef("orders", "id"), new ColumnRef("customer", "name")),
                 List.of(new Filter(new ColumnRef("customer", "name"), Filter.Operator.EQ, "Alice")));
 
-        System.out.println(plan.explain());
-        System.out.println(query.sql());
-        System.out.println("Bindings: " + query.bindings());
+        IO.println(plan.explain());
+        IO.println(query.sql());
+        IO.println("Bindings: " + query.bindings());
     }
 }

@@ -36,6 +36,8 @@ This is a library inside the caller's process, not an independently deployed ser
 | `SqlRenderer` | Allowlisted identifier rendering, predicates, placeholders | Driver value conversion, connections, row limits |
 | Caller | Metadata authorization, projections, filters, JDBC binding, transaction, timeouts | No responsibilities are transferred implicitly |
 
+The Java 27 baseline uses stable sequenced maps for ordered, unmodifiable alias and route snapshots; public accessors retain their `Map` signatures. [Migration notes](JAVA-27.md) distinguish the runtime requirement from the APIs adopted.
+
 A role ID is independent of a physical table name. This preserves two foreign-key roles such as billing and shipping addresses. A relationship carries explicit equality column pairs, so composite keys remain intact.
 
 ## Planning sequence

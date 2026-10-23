@@ -44,7 +44,7 @@ class JoinPlannerTest {
         AmbiguousPathException error = assertThrows(AmbiguousPathException.class,
                 () -> new JoinPlanner(graph(edges, "a", "b", "c", "d", "e")).plan("a", List.of("e")));
         assertEquals(2, error.candidates().size());
-        assertEquals(List.of("ab", "bd", "de"), error.candidates().get(0));
+        assertEquals(List.of("ab", "bd", "de"), error.candidates().getFirst());
     }
 
     @Test void parallelForeignKeysAreNotCollapsed() {
@@ -52,7 +52,7 @@ class JoinPlannerTest {
                 edge("shipping", "orders", "address", 1)), "orders", "address");
         assertThrows(AmbiguousPathException.class, () -> new JoinPlanner(schema).plan("orders", List.of("address")));
         assertEquals("shipping", new JoinPlanner(schema).plan("orders", List.of("address"),
-                Map.of("address", List.of("shipping"))).joins().get(0).id());
+                Map.of("address", List.of("shipping"))).joins().getFirst().id());
     }
 
     @Test void multiTargetSharesPrefixAndIgnoresInputOrdering() {
@@ -115,6 +115,29 @@ class JoinPlannerTest {
         assertThrows(UnsupportedOperationException.class, () -> plan.joins().clear());
     }
 
+    @Test void orderedAliasViewsPreserveRootFirstAndCannotMutateThePlan() {
+        JoinPlan plan = new JoinPlanner(graph(List.of(edge("ab", "a", "b", 1),
+                edge("bc", "b", "c", 1)), "a", "b", "c")).plan("a", List.of("c", "b"));
+        assertEquals(List.of("a", "b", "c"), new ArrayList<>(plan.aliases().keySet()));
+        assertInstanceOf(SequencedMap.class, plan.aliases());
+        @SuppressWarnings("unchecked")
+        SequencedMap<String, String> aliases = (SequencedMap<String, String>) plan.aliases();
+        assertEquals(Map.entry("a", "t0"), aliases.firstEntry());
+        assertEquals(Map.entry("c", "t2"), aliases.lastEntry());
+        assertEquals(List.of("c", "b", "a"), new ArrayList<>(aliases.reversed().keySet()));
+        assertThrows(UnsupportedOperationException.class, () -> aliases.putFirst("other", "t9"));
+        assertThrows(UnsupportedOperationException.class, () -> aliases.reversed().pollFirstEntry());
+        assertThrows(UnsupportedOperationException.class,
+                () -> aliases.sequencedEntrySet().getFirst().setValue("changed"));
+        assertEquals("t0", plan.aliases().get("a"));
+        assertEquals(List.of("b", "c"), new ArrayList<>(plan.routes().keySet()));
+        @SuppressWarnings("unchecked")
+        SequencedMap<String, List<String>> routes = (SequencedMap<String, List<String>>) plan.routes();
+        assertEquals(List.of("c", "b"), new ArrayList<>(routes.reversed().keySet()));
+        assertThrows(UnsupportedOperationException.class, () -> routes.reversed().putLast("a", List.of()));
+        assertThrows(UnsupportedOperationException.class, () -> routes.firstEntry().getValue().clear());
+    }
+
     @Test void invalidMetadataFailsBeforePlanning() {
         assertThrows(IllegalArgumentException.class, () -> graph(List.of(edge("ab", "a", "b", 1)), "a"));
         assertThrows(IllegalArgumentException.class, () -> edge("ab", "a", "b", 0));
@@ -156,7 +179,7 @@ class JoinPlannerTest {
                     assertEquals(2, failure.candidates().size());
                     assertTrue(valid.containsAll(failure.candidates()));
                 } else {
-                    assertEquals(best.get(0).stream().map(Relationship::id).toList(),
+                    assertEquals(best.getFirst().stream().map(Relationship::id).toList(),
                             planner.plan("n0", List.of(target)).routes().get(target));
                 }
             }
@@ -170,7 +193,7 @@ class JoinPlannerTest {
             if (edge.from().equals(current) && visited.add(edge.to())) {
                 path.add(edge);
                 enumerateSimplePaths(schema, edge.to(), target, visited, path, result);
-                path.remove(path.size() - 1);
+                path.removeLast();
                 visited.remove(edge.to());
             }
         }

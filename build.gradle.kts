@@ -4,23 +4,25 @@ plugins {
 }
 
 group = "io.github.59alex"
-version = "0.1.0"
+version = "0.2.0"
 
 repositories { mavenCentral() }
 java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(27))
     withSourcesJar()
     withJavadocJar()
 }
 tasks.withType<JavaCompile>().configureEach {
-    options.release.set(17)
+    options.release.set(27)
     options.encoding = "UTF-8"
 }
 tasks.withType<Javadoc>().configureEach {
     (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
 }
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.11.4")
+    testImplementation(platform("org.junit:junit-bom:6.1.3"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 tasks.test { useJUnitPlatform() }
 publishing {
@@ -42,11 +44,11 @@ publishing {
     }
 }
 
-val examples by sourceSets.creating {
+val examples = sourceSets.create("examples") {
     compileClasspath += sourceSets.main.get().output
     runtimeClasspath += output + compileClasspath
 }
-val example by tasks.registering(JavaExec::class) {
+val example = tasks.register<JavaExec>("example") {
     group = "verification"
     description = "Runs the metadata-driven report query example"
     classpath = examples.runtimeClasspath
@@ -56,4 +58,11 @@ tasks.check { dependsOn(example) }
 
 tasks.withType<Jar>().configureEach {
     from("LICENSE") { into("META-INF") }
+}
+
+// Custom JavaExec tasks must use the same JDK as compilation, even if Gradle runs on an older JVM.
+tasks.withType<JavaExec>().configureEach {
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(27))
+    })
 }
