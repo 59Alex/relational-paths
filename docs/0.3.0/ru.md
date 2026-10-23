@@ -1,8 +1,10 @@
 # relational-paths 0.3.0 — руководство
 
+[← Back to documentation and versions / Назад к документации и версиям](../index.md)
+
 [English](en.md) · [Русский](ru.md)
 
-[Версии](../README.md) · [README](../../README.ru.md) · [Возможности Java](java.ru.md)
+[Версии](../index.md) · [README](../../README.md) · [Возможности Java](java.ru.md)
 
 Стройте понятные и воспроизводимые планы JOIN по метаданным таблиц. Явно выбирайте неоднозначные связи и получайте SELECT-запросы с отдельными значениями параметров.
 
@@ -338,3 +340,5 @@ ALL CHECKS PASSED
 - [Example.java](examples/Example.java)
 
 [MIT](../../LICENSE)
+
+[← Back to documentation and versions / Назад к документации и версиям](../index.md)

@@ -1,5 +1,7 @@
 # Java support
 
+[← Back to documentation and versions / Назад к документации и версиям](index.md)
+
 Version **0.3.0 requires Java 17 or newer**. The supported and tested LTS matrix is **Java 17, Java 21, and Java 25**; **Java 27** is also supported as an additional runtime. The same library artifact is used on all four runtimes; it is not a multi-release JAR.
 
 | Runtime | Support | Artifact target |
@@ -52,3 +54,5 @@ The public return type remains `Map`; casts to a particular collection implement
 A lower bytecode target changes compatibility, not planning guarantees or execution strategy. Search bounds still fail closed, complete witness paths can retain O(V²) references in a chain, and SQL execution remains the application's responsibility. Choose heap, GC, transaction, and timeout settings for the consuming application and verify them against its workload.
 
 The runtime matrix checks compatibility. It does not establish a live-database integration result, production latency SLA, or performance gain on any particular JDK.
+
+[← Back to documentation and versions / Назад к документации и версиям](index.md)

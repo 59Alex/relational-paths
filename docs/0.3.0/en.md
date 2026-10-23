@@ -1,8 +1,10 @@
 # relational-paths 0.3.0 — usage guide
 
+[← Back to documentation and versions / Назад к документации и версиям](../index.md)
+
 [English](en.md) · [Русский](ru.md)
 
-[Versions](../README.md) · [README](../../README.md) · [Java features](java.en.md)
+[Versions](../index.md) · [README](../../README.md) · [Java features](java.en.md)
 
 Turn runtime table metadata into deterministic, explainable JOIN plans. Resolve ambiguous relationships explicitly and render SELECT queries with bound values.
 
@@ -338,3 +340,5 @@ Optional: run the library tests and its bundled example from the library checkou
 - [Example.java](examples/Example.java)
 
 [MIT](../../LICENSE)
+
+[← Back to documentation and versions / Назад к документации и версиям](../index.md)

@@ -1,7 +1,9 @@
 # relational-paths
 
-**Language:** [English](README.md) · [Русский](README.ru.md)<br>
-**Library version:** [0.3.0](docs/0.3.0/en.md) · [All versions](docs/README.md)<br>
+<details name="readme-language">
+<summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/lang-en-dark.svg"><img src="assets/lang-en-light.svg" width="42" height="26" alt="EN"></picture></summary>
+
+**Library version:** [0.3.0](docs/0.3.0/en.md) · [All versions](docs/index.md)<br>
 **Java:** [17](docs/0.3.0/java.en.md#java-17) · [21](docs/0.3.0/java.en.md#java-21) · [25](docs/0.3.0/java.en.md#java-25) · [27](docs/0.3.0/java.en.md#java-27)
 
 [**Usage guide: capabilities, examples and expected results →**](docs/0.3.0/en.md)
@@ -145,3 +147,41 @@ Tests cover path ambiguity, positive-cost cycles, parallel foreign keys, determi
 ## License
 
 [MIT](LICENSE), copyright 2026 Aleksandr Kashevarov. The Gradle Wrapper retains its upstream Apache-2.0 notices; see [third-party notices](THIRD_PARTY_NOTICES.md).
+
+</details>
+
+<details name="readme-language" open>
+<summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/lang-ru-dark.svg"><img src="assets/lang-ru-light.svg" width="42" height="26" alt="RU"></picture></summary>
+
+**Версия библиотеки:** [0.3.0](docs/0.3.0/ru.md) · [Все версии](docs/index.md)<br>
+**Java:** [17](docs/0.3.0/java.ru.md#java-17) · [21](docs/0.3.0/java.ru.md#java-21) · [25](docs/0.3.0/java.ru.md#java-25) · [27](docs/0.3.0/java.ru.md#java-27)
+
+[**Руководство: возможности, примеры и результаты →**](docs/0.3.0/ru.md)
+
+Стройте понятные и воспроизводимые планы JOIN по метаданным таблиц. Явно выбирайте неоднозначные связи и получайте SELECT-запросы с отдельными значениями параметров.
+
+## Возможности
+
+| Возможность | Пример и объяснение |
+| --- | --- |
+| Подключение и локальная сборка | [Открыть](docs/0.3.0/ru.md#подключение-и-локальная-сборка) |
+| Описание ролей и связей | [Открыть](docs/0.3.0/ru.md#описание-ролей-и-связей) |
+| Планирование маршрутов и объяснение результата | [Открыть](docs/0.3.0/ru.md#планирование-маршрутов-и-объяснение-результата) |
+| Выбор неоднозначных связей и роли таблиц | [Открыть](docs/0.3.0/ru.md#выбор-неоднозначных-связей-и-роли-таблиц) |
+| Формирование SELECT с параметрами | [Открыть](docs/0.3.0/ru.md#формирование-select-с-параметрами) |
+| Лимиты, ошибки и гарантии | [Открыть](docs/0.3.0/ru.md#лимиты-ошибки-и-гарантии) |
+| Запуск полного примера и решение проблем | [Открыть](docs/0.3.0/ru.md#запуск-полного-примера-и-решение-проблем) |
+
+## Совместимость и установка
+
+Основной артефакт требует Java 17. Проверены JVM 17, 21, 25 и 27. Более новая JVM не повышает минимальную версию библиотеки.
+
+Специальных модулей с API Java 21/25/27 нет: библиотека использует базу Java 17.
+
+Артефакты устанавливаются из исходников через Maven Local; публикация в Maven Central пока не настроена. Точные зависимости, команды и требования примера находятся в руководстве.
+
+## Лицензия
+
+[MIT](LICENSE). Лицензии сторонних зависимостей сохраняются.
+
+</details>

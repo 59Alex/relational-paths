@@ -1,5 +1,7 @@
 # Architecture
 
+[← Back to documentation and versions / Назад к документации и версиям](index.md)
+
 ## Purpose and context
 
 An application with runtime metadata needs to explain how requested fields can be reached from a root model. The library converts that metadata into a deterministic, inspectable join tree. A report builder or API owns metadata visibility, authorization, SQL execution, and result handling.
@@ -93,3 +95,5 @@ SQL tests assert exact rendered syntax and ordered bindings. They do not claim a
 ## What to know
 
 Metadata determines semantic routing. The planner enforces deterministic, bounded, unambiguous choices. The renderer isolates values from SQL syntax. The caller still owns authorization, join cardinality consequences, database execution, transactions, and operational limits.
+
+[← Back to documentation and versions / Назад к документации и версиям](index.md)
