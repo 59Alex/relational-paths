@@ -74,7 +74,7 @@ public final class JoinPlanner {
                     throw new AmbiguousPathException(target, node.paths.stream()
                             .map(p -> p.stream().map(Relationship::id).toList()).toList());
                 }
-                path = node.paths.getFirst();
+                path = node.paths.get(0);
             }
             routes.put(target, path.stream().map(Relationship::id).toList());
             for (Relationship relation : path) {
@@ -98,7 +98,7 @@ public final class JoinPlanner {
     }
 
     private Map<String, Node> shortestPaths(String root) {
-        Map<String, Node> nodes = HashMap.newHashMap(schema.tables().size());
+        Map<String, Node> nodes = new HashMap<>();
         nodes.put(root, new Node(0, new ArrayList<>(List.of(List.of()))));
         PriorityQueue<Visit> queue = new PriorityQueue<>(Comparator.comparingLong(Visit::distance).thenComparing(Visit::table));
         queue.add(new Visit(root, 0));

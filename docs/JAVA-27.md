@@ -1,4 +1,6 @@
-# Java 27 baseline
+# Historical Java 27 baseline — superseded in 0.3.0
+
+> Historical document for version 0.2.0 only. Version **0.3.0 restores Java 17 as the minimum** and supports LTS runtimes 17, 21, and 25. Do not apply the Java 27 upgrade instructions below to the current version. Use [Java support and migration](JAVA-SUPPORT.md) instead. The sequenced-collection and instance-main implementation described here was replaced with Java 17-compatible equivalents.
 
 Version 0.2.0 requires **Java 27 or newer** to build and run. Preview and incubator features are not enabled. This is a runtime baseline change from the Java 17 target of version 0.1.0; upgrading the dependency requires upgrading the application runtime as well.
 

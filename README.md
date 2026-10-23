@@ -9,7 +9,7 @@ Build query editors, reporting tools, and metadata-driven APIs without spreading
 - Preserves multiple foreign keys, composite keys, and separate roles for one physical table.
 - Produces deterministic plans, aliases, and route explanations.
 - Includes a small SQL renderer with column allowlists and bound filter values.
-- Java 27+, no runtime dependencies, [MIT licensed](LICENSE).
+- Java 17 minimum; supported LTS runtimes 17, 21, and 25; no runtime dependencies, [MIT licensed](LICENSE).
 
 This is a semantic path planner, not a database cost optimizer. It never opens a connection or executes a query.
 
@@ -113,11 +113,11 @@ The defaults allow 512 roles, 8,192 relationships, and 8,192 edge visits per aut
 
 ## Java baseline
 
-Version 0.2.0 requires Java 27 for both building and running. It uses stable sequenced collections to make encounter order explicit and an instance-main executable example. The public `Map` return types and planning contracts remain unchanged. See [Java 27 migration notes](docs/JAVA-27.md) for adopted APIs and runtime limits.
+Version 0.3.0 targets Java 17 and supports the Java 17, 21, and 25 LTS runtimes. Ordered, unmodifiable map snapshots preserve deterministic aliases and routes without requiring newer collection APIs. No preview features are used. See [Java support and migration](docs/JAVA-SUPPORT.md) for the runtime matrix and build commands.
 
 ## Build and use locally
 
-Use JDK 27 or newer; no preview flags are required:
+Use a supported JDK (17, 21, or 25); no preview flags are required:
 
 ```sh
 ./gradlew build
@@ -129,7 +129,7 @@ The build produces the library, source, and Javadoc JARs and runs [the executabl
 
 ```kotlin
 repositories { mavenLocal(); mavenCentral() }
-dependencies { implementation("io.github.59alex:relational-paths:0.2.0") }
+dependencies { implementation("io.github.59alex:relational-paths:0.3.0") }
 ```
 
 These are local installation instructions, not a claim that this version is available from Maven Central.

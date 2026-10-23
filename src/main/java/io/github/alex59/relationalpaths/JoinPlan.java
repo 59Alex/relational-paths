@@ -7,19 +7,19 @@ public final class JoinPlan {
     private final Schema schema;
     private final String root;
     private final List<Relationship> joins;
-    private final SequencedMap<String, String> aliases;
-    private final SequencedMap<String, List<String>> routes;
+    private final Map<String, String> aliases;
+    private final Map<String, List<String>> routes;
     JoinPlan(Schema schema, String root, List<Relationship> joins, Map<String, List<String>> routes) {
         this.schema = schema;
         this.root = root;
         this.joins = List.copyOf(joins);
-        SequencedMap<String, String> aliases = LinkedHashMap.newLinkedHashMap(joins.size() + 1);
-        aliases.putLast(root, "t0");
-        for (Relationship join : joins) aliases.putLast(join.to(), "t" + aliases.size());
-        this.aliases = Collections.unmodifiableSequencedMap(aliases);
+        Map<String, String> aliases = new LinkedHashMap<>();
+        aliases.put(root, "t0");
+        for (Relationship join : joins) aliases.put(join.to(), "t" + aliases.size());
+        this.aliases = Collections.unmodifiableMap(aliases);
         TreeMap<String, List<String>> copy = new TreeMap<>();
         routes.forEach((target, route) -> copy.put(target, List.copyOf(route)));
-        this.routes = Collections.unmodifiableSequencedMap(copy);
+        this.routes = Collections.unmodifiableMap(copy);
     }
     /** Returns the described immutable value.
      * @return immutable input metadata
